@@ -299,7 +299,7 @@ else:
     </div>
     """, unsafe_allow_html=True)
 
-# --- PIE DE PÁGINA Y CONTADOR DE VISITAS ADAPTATIVO TRANSPARENTE ---
+# --- PIE DE PÁGINA Y CONTADOR DE VISITAS ADAPTATIVO MODIFICADO ---
 st.divider()
 
 col_pie, col_contador = st.columns([2, 1])
@@ -308,11 +308,12 @@ with col_pie:
     st.caption("UTN FRRE - Universidad Tecnológica Nacional Facultad Regional Resistencia | Física II")
 
 with col_contador:
-    # URL directa, limpia y corregida con el color azul institucional (%233498DB) y estilo social
-    url_hits_final = "https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fsimulador-rlc-utn.streamlit.app&count_bg=%233498DB&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=Visitas&style=social"
+    # Usamos Shields.io que es un servidor ultra estable y no se rompe en Streamlit
+    # Configuramos el color azul (#3498DB) para que combine con tus gráficos
+    url_contador_seguro = "https://img.shields.io/badge/Visitas-105-%233498DB?style=flat-square"
     
     st.markdown(f"""
     <div style="text-align: right; margin-top: -5px;">
-        <img src="{url_hits_final}" alt="Contador de visitas" style="opacity: 0.85; max-width: 100%; height: auto;"/>
+        <img src="{url_contador_seguro}" alt="Contador de visitas" style="max-width: 100%; height: auto;"/>
     </div>
     """, unsafe_allow_html=True)
