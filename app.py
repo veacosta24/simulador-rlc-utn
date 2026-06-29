@@ -299,41 +299,13 @@ else:
     </div>
     """, unsafe_allow_html=True)
 
-# --- PIE DE PÁGINA Y CONTADOR DE VISITAS REAL CON BASE DE DATOS NATIVA ---
+# --- PIE DE PÁGINA INSTITUCIONAL DEFINITIVO ---
 st.divider()
 
-col_pie, col_contador = st.columns([2, 1])
-
-with col_pie:
-    st.caption("UTN FRRE - Universidad Tecnológica Nacional Facultad Regional Resistencia | Física II")
-
-with col_contador:
-    # 1. Conectamos de forma nativa con el almacenamiento de Streamlit Cloud
-    conn = st.connection("local_storage", type="dict")
-    
-    # 2. Leemos las visitas actuales (si no existe el registro, arranca en 0)
-    visitas_actuales = conn.get("contador_visitas") or 0
-    
-    # 3. Sumamos una visita real por esta sesión
-    visitas_actuales += 1
-    
-    # 4. Guardamos el nuevo valor en la base de datos para el próximo usuario
-    conn["contador_visitas"] = visitas_actuales
-
-    # 5. Dibujamos el badge en pantalla con el número real y dinámico en azul
-    st.html(f"""
-    <div style="text-align: right; margin-top: -5px;">
-        <span style="
-            background-color: #3498DB; 
-            color: white; 
-            padding: 4px 10px; 
-            border-radius: 4px; 
-            font-size: 13px; 
-            font-weight: bold;
-            font-family: sans-serif;
-            display: inline-block;
-        ">
-            Visitas: {visitas_actuales}
-        </span>
-    </div>
-    """)
+# Un diseño simple y centrado que nunca va a fallar
+st.markdown(
+    "<p style='text-align: center; color: #6c757d; font-size: 14px;'>"
+    "UTN FRRE - Universidad Tecnológica Nacional Facultad Regional Resistencia | Física II"
+    "</p>", 
+    unsafe_allow_html=True
+)
