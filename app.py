@@ -308,7 +308,7 @@ with col_pie:
     st.caption("UTN FRRE - Universidad Tecnológica Nacional Facultad Regional Resistencia | Física II")
 
 with col_contador:
-    # URL directa generada con color Azul Corriente (#3498DB) y estilo social transparente
+    # URL directa, limpia y corregida con el color azul institucional (%233498DB) y estilo social
     url_hits_final = "https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fsimulador-rlc-utn.streamlit.app&count_bg=%233498DB&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=Visitas&style=social"
     
     st.markdown(f"""
