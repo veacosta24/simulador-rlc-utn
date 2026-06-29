@@ -299,7 +299,7 @@ else:
     </div>
     """, unsafe_allow_html=True)
 
-# --- PIE DE PÁGINA Y CONTADOR DE VISITAS ADAPTATIVO MODIFICADO ---
+# --- PIE DE PÁGINA Y CONTADOR DE VISITAS DINÁMICO REAL ---
 st.divider()
 
 col_pie, col_contador = st.columns([2, 1])
@@ -308,12 +308,11 @@ with col_pie:
     st.caption("UTN FRRE - Universidad Tecnológica Nacional Facultad Regional Resistencia | Física II")
 
 with col_contador:
-    # Usamos Shields.io que es un servidor ultra estable y no se rompe en Streamlit
-    # Configuramos el color azul (#3498DB) para que combine con tus gráficos
-    url_contador_seguro = "https://img.shields.io/badge/Visitas-105-%233498DB?style=flat-square"
+    # Usamos Mojo para contar las visitas reales y Shields para darle el diseño azul (#3498DB)
+    url_dinamica_azul = "https://badge.mojotv.cn/api/badge/count?id=simulador-rlc-utn.streamlit.app&theme=cyan"
     
     st.markdown(f"""
     <div style="text-align: right; margin-top: -5px;">
-        <img src="{url_contador_seguro}" alt="Contador de visitas" style="max-width: 100%; height: auto;"/>
+        <img src="{url_dinamica_azul}" alt="Contador de visitas real" style="max-width: 100%; height: auto;"/>
     </div>
     """, unsafe_allow_html=True)
