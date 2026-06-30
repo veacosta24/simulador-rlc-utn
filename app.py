@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import plotly.graph_objects as go
+from plotly.subplots import make_subplots
 
 # Configuración de la página (Responsive / Mobile-First estricto)
 st.set_page_config(page_title="Física II - UTN FRRE", layout="centered", page_icon="🔌")
@@ -18,7 +19,7 @@ st.markdown("👩‍💻 **Desarrollado por:** Veronica Acosta")
 st.divider()
 
 
-# --- MARCO TEÓRICO COMPLETO DE LA CÁTEDRA (Optimizado contra desbordamiento móvil) ---
+# --- MARCO TEÓRICO COMPLETO DE LA CÁTEDRA ---
 st.markdown("## 📖 Marco Teórico de Respaldo (UT09)")
 st.caption("Consultá las bases teóricas, ecuaciones fundamentales y convenios de fase de la UTN.")
 
@@ -58,7 +59,7 @@ with st.expander("📘 Ver Apuntes de Cátedra: Fórmulas y Comportamiento"):
 st.divider()
 
 
-# --- SECCIÓN 2: BANCO DE EJERCICIOS DE LA GUÍA (Acordeones UX) ---
+# --- SECCIÓN 2: BANCO DE EJERCICIOS DE LA GUÍA ---
 st.markdown("## 📚 Guía de Ejercicios de Respaldo")
 st.caption("Tocá un problema para cargar sus parámetros automáticamente en el simulador.")
 
@@ -82,7 +83,7 @@ with st.expander("📝 Problema 1: Circuitos Elementales Puros (R, L, C)"):
 
 with st.expander("📝 Problema 2: Circuito RL Serie"):
     st.markdown("""
-    **Enunciado:** Resistencia $R = 12\\ \\Omega$ e inductancia $L = 2,5\\text{ mH}$ en serie. Fuente con $V_0 = 20\\text{ V}$ ($V_{ef} = 14,142\\text{ V}$) y frecuencia $f = 50\\text{ Hz}$.
+    **Enunciado:** Resistencia $R = 12\\ \\Omega$ e inductancia $L = 2,5\\text{ mH}$ en serie. Fuente con $V_0 = 20\\text{ V}$ ($V_{ef} = 14,142\\text{ V}$) and frecuencia $f = 50\\text{ Hz}$.
     """)
     if st.button("Cargar Problema 2", key="btn_p2", use_container_width=True):
         st.session_state["inputs"] = [12.0, 0.0025, 999999.0, 14.142, 50.0]
@@ -179,21 +180,37 @@ else:
 # --- SECCIÓN 5: VISUALIZACIÓN GRÁFICA RESPONSIVE ---
 st.markdown("## 📊 Simulación Gráfica")
 
-# 1. Gráfico Temporal (Sin leyendas nativas molestas)
-fig = go.Figure()
-fig.add_trace(go.Scatter(x=t, y=v_t, name="v(t)", line=dict(color='#E74C3C', width=3)))
-fig.add_trace(go.Scatter(x=t, y=i_t * 10, name="i(t)x10", line=dict(color='#3498DB', width=3, dash='dash')))
+# 1. Gráfico Temporal con Doble Eje Y Autoescalable y Trazo Continuo (Feedback del Profe)
+fig = make_subplots(specs=[[{"secondary_y": True}]])
+
+# Onda de Voltaje - Eje Y Principal (Izquierdo) - Trazo continuo
+fig.add_trace(
+    go.Scatter(x=t, y=v_t, name="v(t)", line=dict(color='#E74C3C', width=3)),
+    secondary_y=False,
+)
+
+# Onda de Corriente - Eje Y Secundario (Derecho) - Trazo continuo
+fig.add_trace(
+    go.Scatter(x=t, y=i_t, name="i(t)", line=dict(color='#3498DB', width=3)),
+    secondary_y=True,
+)
+
+# Configuración de diseño y autoescalado independiente
 fig.update_layout(
     title="Comportamiento Temporal de las Ondas",
     xaxis_title="Tiempo (s)",
-    yaxis_title="Amplitud",
     showlegend=False,
     template="plotly_white",
-    height=280,
+    height=300,
     margin=dict(l=10, r=10, t=40, b=10)
 )
+
+# Títulos y colores personalizados de los ejes Y para lecturas rápidas
+fig.update_yaxes(title_text="Voltaje v(t) [V]", color='#E74C3C', secondary_y=False)
+fig.update_yaxes(title_text="Corriente i(t) [A]", color='#3498DB', secondary_y=True)
+
 st.plotly_chart(fig, use_container_width=True)
-st.markdown("<p style='text-align: center; font-size: 13px;'>🔴 Voltaje de la Fuente v(t) &nbsp;&nbsp;|&nbsp;&nbsp; 🔵 Corriente i(t) multiplicada x10</p>", unsafe_allow_html=True)
+st.markdown("<p style='text-align: center; font-size: 13px;'>🔴 Voltaje de la Fuente (Eje Izquierdo) &nbsp;&nbsp;|&nbsp;&nbsp; 🔵 Corriente Instantánea (Eje Derecho - Autoescalable)</p>", unsafe_allow_html=True)
 
 # Explicación del gráfico temporal
 with st.container(border=True):
@@ -218,7 +235,7 @@ with st.container(border=True):
 
 st.write("")
 
-# 2. Gráfico Fasorial (Sin leyendas nativas que colapsen el vector)
+# 2. Gráfico Fasorial
 fig_fasor = go.Figure()
 fig_fasor.add_trace(go.Scatter(x=[0, R], y=[0, 0], line=dict(color='black', width=4)))
 fig_fasor.add_trace(go.Scatter(x=[R, R], y=[0, XL-XC], line=dict(color='blue', width=4)))
@@ -299,10 +316,10 @@ else:
     </div>
     """, unsafe_allow_html=True)
 
-# --- PIE DE PÁGINA INSTITUCIONAL DEFINITIVO ---
+
+# --- PIE DE PÁGINA INSTITUCIONAL ---
 st.divider()
 
-# Un diseño simple y centrado que nunca va a fallar
 st.markdown(
     "<p style='text-align: center; color: #6c757d; font-size: 14px;'>"
     "UTN FRRE - Universidad Tecnológica Nacional Facultad Regional Resistencia | Física II"
